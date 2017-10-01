@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Planeje Certo</string>
-    <string name="facebook_app_id">477830879252112</string>
+    <string name="app_name">PlanejeCerto</string>
+    <string name="facebook_app_id">1282340191872464</string>
+    <string name="fb_login_protocol_scheme">fb1282340191872464</string>
+
 
 </resources>

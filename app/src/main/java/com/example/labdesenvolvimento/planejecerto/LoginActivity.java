@@ -29,14 +29,14 @@ public class LoginActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        callbackManager = CallbackManager.Factory.create();
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
-        callbackManager = CallbackManager.Factory.create();
 
-        String hash = null;
+
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     getPackageName(),
@@ -44,7 +44,6 @@ public class LoginActivity extends Activity
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                hash = Base64.encodeToString(md.digest(), Base64.DEFAULT);
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
         }
@@ -59,7 +58,7 @@ public class LoginActivity extends Activity
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.i("ID_FB",loginResult.getAccessToken().getUserId());
-                //redirect(loginResult.getAccessToken().getUserId());
+                redirect(loginResult.getAccessToken().getUserId());
             }
 
             @Override
@@ -75,7 +74,7 @@ public class LoginActivity extends Activity
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if(accessToken != null){
-            //redirect(accessToken.getUserId());
+            redirect(accessToken.getUserId());
         }
     }
 
@@ -85,9 +84,10 @@ public class LoginActivity extends Activity
     }
 
 
-//    private void redirect(String ID){
-//        Intent intent = new Intent(MainActivity.this,FriendsActivity.class);
-//        intent.putExtra("FB_ID",ID);
-//        startActivity(intent);
-//    }
+    private void redirect(String ID){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("FB_ID",ID);
+        startActivity(intent);
+    }
+
 }
