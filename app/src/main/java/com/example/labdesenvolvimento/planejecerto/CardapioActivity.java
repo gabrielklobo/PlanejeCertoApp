@@ -15,6 +15,7 @@ public class CardapioActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardapio);
 
+
         Button vou = (Button) findViewById(R.id.button);
         Button nVou = (Button) findViewById(R.id.button3);
         nVou.setOnClickListener(new View.OnClickListener() {
