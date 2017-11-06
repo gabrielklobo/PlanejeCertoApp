@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
     static List<String> unidade = new ArrayList<>();
     static List<String> servico = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
