@@ -79,14 +79,12 @@ public class MainActivity extends Activity {
         String msg;
 
         try {
-            int i = 0;
-
             JSONObject jsonObject = new JSONObject(response);
             JSONArray result = jsonObject.getJSONArray("result");
 
             Log.d("Cardapios JSON LENGHT", String.valueOf(result.length()));
 
-            for (i = 0; i < result.length(); i++) {
+            for (int i = 0; i < result.length(); i++) {
                 JSONObject collegeData = result.getJSONObject(i);
                 if (busca.equalsIgnoreCase("ListaUnidades")){
                     unidade.add(result.getJSONObject(i).toString());
