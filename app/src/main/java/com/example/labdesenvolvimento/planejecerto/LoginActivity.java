@@ -26,6 +26,7 @@ public class LoginActivity extends Activity
     private CallbackManager callbackManager;
     private LoginButton loginButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
