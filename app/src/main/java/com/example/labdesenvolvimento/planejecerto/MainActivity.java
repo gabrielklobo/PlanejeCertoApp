@@ -22,7 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Model.Cardapio;
@@ -39,17 +41,45 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        List<String> datas = new ArrayList<>();
         Button consultar = (Button) findViewById(R.id.button2);
         final Spinner listaUnidade = (Spinner) findViewById(R.id.spinner);
-        final Spinner listaServico = (Spinner) findViewById(R.id.spinner3);
-//        final Spinner listaData = (Spinner) findViewById(R.id.spinner3);
+        final Spinner listaServico = (Spinner) findViewById(R.id.spinner2);
+        final Spinner listaData = (Spinner) findViewById(R.id.spinner3);
 
-        listar(this, "ListaUnidades");
-        listar(this, "ListaServicos");
+        Date dataHoje = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        datas.add(sdf.format(dataHoje));
+
+        //listar(this, "ListaUnidades");
+        // listar(this, "ListaServicos");
+
+//        Unidade u1 = new Unidade();
+//        u1.setUnidadeId(1);
+//        u1.setUnidadeNome("1");
+//        Unidade u2 = new Unidade();
+//        u2.setUnidadeId(2);
+//        u2.setUnidadeNome("2");
+//        Unidade u3 = new Unidade();
+//        u3.setUnidadeId(3);
+//        u3.setUnidadeNome("3");
+//        Unidade u4 = new Unidade();
+//        u4.setUnidadeId(4);
+//        u4.setUnidadeNome("4");
+
+        for (int i = 0; i < 100; i++) {
+            Unidade u = new Unidade();
+            u.setUnidadeNome(String.valueOf(i));
+            unidadeL.add(u);
+        }
+        for (int i = 0; i < 100; i++) {
+            Servico s = new Servico();
+            s.setServicoNome(String.valueOf(i));
+            servicoL.add(s);
+        }
+
 
         ArrayAdapter<Unidade> spinnerArrayAdapterUni = new ArrayAdapter<Unidade>(this, android.R.layout.simple_spinner_dropdown_item, unidadeL);
-
 
 
         spinnerArrayAdapterUni.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -61,22 +91,27 @@ public class MainActivity extends Activity {
         spinnerArrayAdapterServ.setDropDownViewResource(android.R.layout.simple_spinner_item);
         listaServico.setAdapter(spinnerArrayAdapterServ);
 
+        ArrayAdapter<String> spinnerArrayAdapterData = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, datas);
+
+        spinnerArrayAdapterData.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        listaData.setAdapter(spinnerArrayAdapterData);
+
 //
-//        consultar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Create the text message with a string
-//                Intent sendIntent = new Intent();
-//                sendIntent.setAction(Intent.ACTION_SEND);
-//                sendIntent.putExtra("idUnidade", listaUnidade.getSelectedItem().toString());
-//                sendIntent.putExtra("idServico", listaServico.getSelectedItem().toString());
-//                sendIntent.putExtra("data", listaData.getSelectedItem().toString());
-//
-//                Intent intent = new Intent(MainActivity.this, CardapioActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
+        consultar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create the text message with a string
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra("idUnidade", listaUnidade.getSelectedItem().toString());
+                sendIntent.putExtra("idServico", listaServico.getSelectedItem().toString());
+                //sendIntent.putExtra("data", listaData.getSelectedItem().toString());
+
+                Intent intent = new Intent(MainActivity.this, CardapioActivity.class);
+                startActivity(intent);
+            }
+        });
+
 //        listaUnidade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //
 //            @Override
