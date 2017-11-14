@@ -26,6 +26,6 @@ public class Unidade {
 
     @Override
     public String toString() {
-        return  unidadeNome;
+        return unidadeNome;
     }
 }

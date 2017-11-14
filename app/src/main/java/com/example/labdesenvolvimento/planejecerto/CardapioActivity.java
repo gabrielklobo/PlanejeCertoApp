@@ -23,18 +23,75 @@ import java.util.List;
 
 import Model.Cardapio;
 
-public class CardapioActivity extends Activity
-{
+public class CardapioActivity extends Activity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardapio);
+        final List<String> nomeReceitas = new ArrayList<>();
+
+        Bundle extras = getIntent().getExtras();
 
 
         Button vou = (Button) findViewById(R.id.button);
         Button nVou = (Button) findViewById(R.id.button3);
+
+
+        String url = "http://192.168.43.61:9999/PLCerto/WS/Cardapio/ListarCardapios/" + extras.getString("data", "") + "&" +
+                extras.getInt("idUnidade", 0) + "&" + extras.getInt("idServico", 0);
+        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                String msg = "";
+                try {
+
+                    JSONArray jsonObject = new JSONArray(response);
+                    JSONArray result = jsonObject;
+
+                    Log.e("**********", String.valueOf(result.length()));
+
+                    for (int i = 0; i < result.length(); i++) {
+                        JSONObject collegeData = result.getJSONObject(i);
+
+
+                        nomeReceitas.add(result.getJSONObject(i).toString());
+                        Log.e("LISTAAAAAAAAAAAAAA ", result.getJSONObject(i).toString());
+
+                    }
+
+
+                    msg = "Sucesso! Cardapios Sincronizados. " + String.valueOf(result.length());
+
+                } catch (
+                        JSONException e
+                        )
+
+                {
+                    msg = "Erro! Sincronização Cardapios JSON " + e.getMessage();
+                } catch (
+                        Exception e
+                        )
+
+                {
+                    msg = "Erro! Sincronização Cardapios Exception " + e.getMessage();
+                }
+
+                Log.e("Sync Cardapios", msg);
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Erro Sinc Cardapios", "ERRO");
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+
+
         nVou.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +108,7 @@ public class CardapioActivity extends Activity
             }
         });
     }
+
     public void PesquisaCardapio(final Context context) {
         //Sincroniza sincroniza = new Sincroniza(context, 0);
         String url = "";

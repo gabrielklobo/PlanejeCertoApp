@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,52 +33,72 @@ import Model.Servico;
 import Model.Unidade;
 
 public class MainActivity extends Activity {
-    static List<Unidade> unidadeL = new ArrayList<>();
-    static List<Servico> servicoL = new ArrayList<>();
+    static List<Unidade> unidadeL;
+    static List<Servico> servicoL;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        unidadeL = new ArrayList<>();
+        servicoL = new ArrayList<>();
         List<String> datas = new ArrayList<>();
         Button consultar = (Button) findViewById(R.id.button2);
         final Spinner listaUnidade = (Spinner) findViewById(R.id.spinner);
         final Spinner listaServico = (Spinner) findViewById(R.id.spinner2);
         final Spinner listaData = (Spinner) findViewById(R.id.spinner3);
 
-        Date dataHoje = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        datas.add(sdf.format(dataHoje));
+//        Date dataHoje = new Date();
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        datas.add("02/01/17");
+        datas.add("01/09/16");
+        datas.add("10/02/17");
 
-        //listar(this, "ListaUnidades");
-        // listar(this, "ListaServicos");
+//       listar(this, "ListaUnidades");
+//        listar(this, "ListaServicos");
 
-//        Unidade u1 = new Unidade();
-//        u1.setUnidadeId(1);
-//        u1.setUnidadeNome("1");
-//        Unidade u2 = new Unidade();
-//        u2.setUnidadeId(2);
-//        u2.setUnidadeNome("2");
-//        Unidade u3 = new Unidade();
-//        u3.setUnidadeId(3);
-//        u3.setUnidadeNome("3");
-//        Unidade u4 = new Unidade();
-//        u4.setUnidadeId(4);
-//        u4.setUnidadeNome("4");
+        Unidade u1 = new Unidade();
+        u1.setUnidadeId(2);
+        u1.setUnidadeNome("Restaurante 1");
+        Unidade u2 = new Unidade();
+        u2.setUnidadeId(3);
+        u2.setUnidadeNome("Restaurante 2");
+        Unidade u3 = new Unidade();
+        u3.setUnidadeId(3);
+        u3.setUnidadeNome("Restaurante 3");
 
-        for (int i = 0; i < 100; i++) {
-            Unidade u = new Unidade();
-            u.setUnidadeNome(String.valueOf(i));
-            unidadeL.add(u);
-        }
-        for (int i = 0; i < 100; i++) {
-            Servico s = new Servico();
-            s.setServicoNome(String.valueOf(i));
-            servicoL.add(s);
-        }
+        unidadeL.add(u1);
+        unidadeL.add(u2);
+        unidadeL.add(u3);
 
+        Servico s = new Servico();
+        s.setServicoId(1);
+        s.setServicoNome("Almoco Geral");
+
+        Servico s1 = new Servico();
+        s1.setServicoId(2);
+        s1.setServicoNome("Jantar Dietetica");
+
+        Servico s2 = new Servico();
+        s2.setServicoId(3);
+        s2.setServicoNome("Ceia Geral");
+
+        Servico s3 = new Servico();
+        s3.setServicoId(4);
+        s3.setServicoNome("Desjejum Geral");
+
+        servicoL.add(s);
+        servicoL.add(s1);
+        servicoL.add(s2);
+        servicoL.add(s3);
+
+
+//        for (int i = 0; i < 100; i++) {
+//            Servico s = new Servico();
+//            s.setServicoNome(String.valueOf(i));
+//            servicoL.add(s);
+//        }
 
         ArrayAdapter<Unidade> spinnerArrayAdapterUni = new ArrayAdapter<Unidade>(this, android.R.layout.simple_spinner_dropdown_item, unidadeL);
 
@@ -101,25 +122,31 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 // Create the text message with a string
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra("idUnidade", listaUnidade.getSelectedItem().toString());
-                sendIntent.putExtra("idServico", listaServico.getSelectedItem().toString());
-                //sendIntent.putExtra("data", listaData.getSelectedItem().toString());
+                Intent sendIntent = new Intent(MainActivity.this, CardapioActivity.class);
+                //sendIntent.setAction(Intent.ACTION_SEND);
+                Unidade u = (Unidade) listaUnidade.getSelectedItem();
+                Servico s = (Servico) listaServico.getSelectedItem();
+                sendIntent.putExtra("idUnidade", u.getUnidadeId());
+                sendIntent.putExtra("idServico", s.getServicoId());
+                sendIntent.putExtra("data", listaData.getSelectedItem().toString().replace("/",""));
+                Toast.makeText(MainActivity.this, String.valueOf(u.getUnidadeId()) + " " + String.valueOf(s.getServicoId() + " " + listaData.getSelectedItem().toString()), Toast.LENGTH_LONG).show();
+                startActivity(sendIntent);
 
-                Intent intent = new Intent(MainActivity.this, CardapioActivity.class);
-                startActivity(intent);
+//
+//                Intent intent = new Intent(MainActivity.this, CardapioActivity.class);
+//
             }
         });
-
 //        listaUnidade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //
 //            @Override
 //            public void onItemSelected(AdapterView<?> parent, View v, int posicao, long id) {
 //                //pega nome pela posição
+//                String nome = parent.getItemAtPosition(posicao).getClass().toString();
+//                Unidade p = (Unidade) parent.getSelectedItem();
 //
 //                //imprime um Toast na tela com o nome que foi selecionado
-//
+//                Toast.makeText(MainActivity.this, "Nome Selecionado: " + p.getUnidadeId(), Toast.LENGTH_LONG).show();
 //            }
 //
 //            @Override
@@ -134,7 +161,7 @@ public class MainActivity extends Activity {
     public static void listar(final Context context, final String busca) {
         //Sincroniza sincroniza = new Sincroniza(context, 0);
         //String url = "http://172.31.1.223:9999/PLCerto/WS/Cardapio/" + busca;
-        String url = "http://192.168.25.95:9999/PLCerto/WS/Cardapio/" + busca;
+        String url = "http://192.168.43.61:9999/PLCerto/WS/Cardapio/" + busca;
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -183,8 +210,8 @@ public class MainActivity extends Activity {
                     } catch (Exception e) {
                         Log.d("Erro add unidade ", "Erro add unidade " + e.getMessage());
                     }
-                    Log.e("TESSTEEEEEEEEEEEE ", unidadeL.get(0).getUnidadeNome());
-                } else if (busca.equalsIgnoreCase("ListaSevicos")) {
+
+                } else if (busca.equalsIgnoreCase("ListaServicos")) {
                     //servico.add(result.getJSONObject(i).toString());
 
                     servico = new Servico();
@@ -199,6 +226,7 @@ public class MainActivity extends Activity {
                     } catch (Exception e) {
                         Log.d("Erro add serviço ", "Erro add serviço " + e.getMessage());
                     }
+
                 }
             }
 
